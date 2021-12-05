@@ -19,6 +19,7 @@ class User < ApplicationRecord
   # has_many :follower_user, through: :followed, source: :follower
   # # フォローされる人(followed) は中間テーブル(Relationshipのfollowed)を通じて(through)、 フォローする人(follower) と紐づく
   has_many :relationships, foreign_key: "follower_id"
+  
   has_many :followings, through: :relationships, source: :followed
 
   has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'followed_id'
