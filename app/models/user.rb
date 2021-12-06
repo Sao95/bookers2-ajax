@@ -9,18 +9,11 @@ class User < ApplicationRecord
   has_many :favorites, dependent: :destroy
 
   # # foreign_key（FK）には、@user.xxxとした際に「@user.idがfollower_idなのかfollowed_idなのか」を指定します。
-  # # has_many :follower, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
   # # @user.booksのように、@user.yyyで、
   # # そのユーザがフォローしている人orフォローされている人の一覧を出したい
-  # has_many :following_user, through: :follower, source: :followed
-  # # フォローする人(follower)は中間テーブル(Relationshipのfollower)を通じて(through)、フォローされる人(followed)と紐づく
-
-  # has_many :followed, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
-  # has_many :follower_user, through: :followed, source: :follower
-  # # フォローされる人(followed) は中間テーブル(Relationshipのfollowed)を通じて(through)、 フォローする人(follower) と紐づく
   has_many :relationships, foreign_key: "follower_id"
-  
   has_many :followings, through: :relationships, source: :followed
+  # source: :followed→relationshipsテーブルのfollowed_idを参考にして、followingsモデルにアクセスする
 
   has_many :reverse_of_relationships, class_name: 'Relationship', foreign_key: 'followed_id'
   has_many :followers, through: :reverse_of_relationships, source: :follower

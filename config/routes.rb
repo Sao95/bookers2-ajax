@@ -9,11 +9,17 @@ Rails.application.routes.draw do
       get :followings, :followers
     end
     resource :relationships, only: [:create, :destroy]
+    # get :search, on: :collection
+    # collection は全部のデータに対するアクションに利用する
+    # member は特定のデータに対するアクションに利用する
   end
 
   resources :books  do
     resource :favorites, only: [:create, :destroy]
     resources :book_comments, only: [:create, :destroy]
+    # get :search, on: :collection
   end
+  
+  get '/search', to: 'searches#search'
 
 end
