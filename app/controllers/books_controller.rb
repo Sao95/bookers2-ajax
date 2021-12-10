@@ -1,4 +1,6 @@
 class BooksController < ApplicationController
+  before_action :ensure_correct_user, only: [:edit, :update, :destroy]
+  # ensure_correct_user→現在のuser_idと投稿者のidが一致していないとはじく
 
   def new
     @book = Book.new #新規投稿機能
@@ -36,8 +38,6 @@ class BooksController < ApplicationController
       redirect_to books_path
     end
   end
-
-
 
   def update
     @book = Book.find(params[:id])
